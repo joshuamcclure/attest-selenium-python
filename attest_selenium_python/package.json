@@ -1,0 +1,19 @@
+{
+  "name": "attest-selenium-python",
+  "version": "0.0.1",
+  "description": "Integrate Attest HTML with python",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuamcclure/attest-selenium-python.git"
+  },
+  "author": "Joshua McClure",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "attest": "^2.8.1",
+    "attest-reporter": "^2.8.1"
+  }
+}

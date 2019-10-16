@@ -1,0 +1,2 @@
+include README.rst attest_selenium_python/node_modules/attest/attest.js
+recursive-include *.rst *.txt

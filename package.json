@@ -1,0 +1,12 @@
+{
+  "name": "attest-selenium-python",
+  "version": "0.0.1",
+  "description": "Integrate attest with python",
+  "main": "index.js",
+  "scripts": {
+    "install": "cd attest_selenium_python && npm install"
+  },
+  "author": "Joshua McClure",
+  "license": "MPL-2.0",
+  "dependencies": {}
+}
