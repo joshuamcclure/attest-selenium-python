@@ -3,10 +3,11 @@
 
 import json
 import os
+import shutil
 from io import open
 
 _DEFAULT_SCRIPT = os.path.join(
-    os.path.dirname(__file__), "node_modules", "attest", "dist", "attest.js"
+    os.path.dirname(__file__), "attest.js"
 )
 
 class Attest(object):
@@ -14,26 +15,26 @@ class Attest(object):
         self.script_url = script_url
         self.selenium = selenium
 
+
     def inject(self):
         """
         Recursively inject attest into all iframes and the top level document.
-
-        :param script_url: location of the attest script.
-        :type script_url: string
         """
         with open(self.script_url, "r", encoding="utf8") as f:
             self.selenium.execute_script(f.read())
+
 
     def run(self, context=None, options=None):
         """
         Run attest against the current page.
 
-        :param context: which page part(s) to analyze and/or what to exclude.
-        :param options: dictionary of attest options.
+        :Args:
+         - context [optional]: which page part(s) to analyze and/or what to exclude.
+         - options [optional]: dictionary of attest options.
         """
         template = (
             "var callback = arguments[arguments.length - 1];"
-            + "attest.run(%s).then(results => callback(results));"
+            + "axe.run(%s).then(results => callback(results));"
         )
         args = ""
 
@@ -51,29 +52,52 @@ class Attest(object):
         response = self.selenium.execute_async_script(command)
         return response
 
-    def write_results(self, data, name=None):
+    def reporter(self, data, reportName, testCaseName, reportTypes='html,xml,csv'):
         """
         Write JSON to file with the specified name.
 
-        :param name: Path to the file to be written to. If no path is passed
-                     a new JSON file "results.json" will be created in the
-                     current working directory.
-        :param output: JSON object.
-        """
+        :Args:
+         - data: results data generated from the accessibility scan
+         - reportName: name of the item in scope
+         - testCaseName: name of the test case
+         - reportTypes [optional]: A comma seperated list of report types. options include: html, xml, or svc.
+        """     
 
-        os.mkdir('./a11y-results')
+        if os.path.exists('./a11y-results'):
+            shutil.rmtree('./a11y-results')
 
-        if name:
-            filepath = os.path.abspath(name)
-        else:
-            filepath = os.path.join("a11y-results","results.json")
+        if not os.path.exists('./a11y-results'):
+            os.mkdir('./a11y-results')
 
-        with open(filepath, "w", encoding="utf8") as f:
+        jsonPath = os.path.join("a11y-results","results.json")
+
+        with open(jsonPath, "w", encoding="utf8") as f:
             try:
                 f.write(unicode(json.dumps(data, indent=4)))
             except NameError:
                 f.write(json.dumps(data, indent=4))
 
-    def reporter(self):
-        myCmd = 'npx attest-reporter ./a11y-results --dest=./a11y-results --format=html'
-        os.system(myCmd)
+        self.runReporter(jsonPath, reportName, testCaseName, reportTypes)
+
+
+    def runReporter(self, jsonPath, reportName, testCaseName, reportTypes):
+        """
+        Write JSON to file with the specified name.
+
+        :Args:
+         - data: results data generated from the accessibility scan
+         - reportName: name of the item in scope
+         - testCaseName: name of the test case
+         - reportTypes: A comma seperated list of report types. options include: html, xml, or svc.
+        """      
+        path = os.path.join(
+            os.path.dirname(__file__), "logResults.js"
+        )
+        log = 'node %s %s %s %s %s' % (path, jsonPath, reportName, testCaseName, reportTypes)
+        os.system(log)
+        os.remove(jsonPath)
+
+
+    def buildReports(self):
+        buildCmd = 'npx attest-reporter ./a11y-results --dest=./a11y-results --format=html'
+        os.system(buildCmd)

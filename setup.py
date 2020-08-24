@@ -26,14 +26,21 @@ setup(
     cmdclass={
         'develop': PostDevelopCommand,
     },
-    name="attest-selenium-python",
+    name="axe-selenium-python",
     use_scm_version=True,
-    description="Python library to integrate Attest HTML and selenium for web \
-                accessibility testing.",
+    setup_requires=["setuptools_scm"],
+    description="Python library to integrate axe and selenium for web accessibility testing.",
     long_description=open("README.rst").read(),
     url="https://github.com/joshuamcclure/attest-selenium-python",
     author="Joshua McClure",
     author_email="joshua.mcclure@deque.com",
+    packages=find_packages(),
+    package_data={
+        "attest_selenium_python": [
+            "attest_selenium_python/node_modules/@deque/attest/dist/attest.js"
+        ]
+    },
+    include_package_data=True,
     install_requires=["selenium>=3.0.2", "pytest>=3.0"],
     license="Mozilla Public License 2.0 (MPL 2.0)",
     keywords="axe-core selenium pytest-selenium accessibility automation mozilla",

@@ -4,7 +4,8 @@
   "description": "Integrate Attest HTML with python",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-attest": "node compile-attest"
   },
   "repository": {
     "type": "git",
@@ -13,7 +14,7 @@
   "author": "Joshua McClure",
   "license": "MPL-2.0",
   "dependencies": {
-    "attest": "^2.8.1",
-    "attest-reporter": "^2.8.1"
+    "@deque/attest-node": "file:deque-attest-node-2.11.1.tgz",
+    "@deque/attest-reporter": "file:deque-attest-reporter-2.10.0.tgz"
   }
 }

@@ -4,7 +4,8 @@
   "description": "Integrate attest with python",
   "main": "index.js",
   "scripts": {
-    "install": "cd attest_selenium_python && npm install"
+    "install": "cd attest_selenium_python && npm install",
+    "build-attest": "cd attest_selenium_python && npm run build-attest"
   },
   "author": "Joshua McClure",
   "license": "MPL-2.0",
