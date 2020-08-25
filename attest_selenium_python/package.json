@@ -4,8 +4,7 @@
   "description": "Integrate Attest HTML with python",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-attest": "node compile-attest"
+    "postinstall": "node compile-attest"
   },
   "repository": {
     "type": "git",
