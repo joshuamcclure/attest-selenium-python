@@ -1,9 +1,12 @@
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from attest_selenium_python import Attest
 import time
 
 def test_google():
-    driver = webdriver.Firefox()
+    options = Options()
+    options.headless = True
+    driver = webdriver.Firefox(options=options)
     driver.get("https://google.com")
     
     attest = Attest(driver)

@@ -52,7 +52,7 @@ class Attest(object):
         response = self.selenium.execute_async_script(command)
         return response
 
-    def reporter(self, data, reportName, testCaseName, reportTypes='html,xml,csv'):
+    def reporter(self, data, reportName, testCaseName, reportTypes='html,xml,csv', reportDir='./a11y-results'):
         """
         Write JSON to file with the specified name.
 
@@ -60,16 +60,17 @@ class Attest(object):
          - data: results data generated from the accessibility scan
          - reportName: name of the item in scope
          - testCaseName: name of the test case
-         - reportTypes [optional]: A comma seperated list of report types. options include: html, xml, or svc.
-        """     
+         - reportTypes [optional]: A comma seperated list of report types. options include: html, xml, or csv.
+         - reportDir [optional]: the directory that the report files will be saved to. Defaults to './a11y-results'
+        """
 
-        if os.path.exists('./a11y-results'):
-            shutil.rmtree('./a11y-results')
+        if os.path.exists(reportDir):
+            shutil.rmtree(reportDir)
 
-        if not os.path.exists('./a11y-results'):
-            os.mkdir('./a11y-results')
+        if not os.path.exists(reportDir):
+            os.makedirs(reportDir)
 
-        jsonPath = os.path.join("a11y-results","results.json")
+        jsonPath = os.path.join(reportDir,"results.json")
 
         with open(jsonPath, "w", encoding="utf8") as f:
             try:
@@ -77,10 +78,10 @@ class Attest(object):
             except NameError:
                 f.write(json.dumps(data, indent=4))
 
-        self.runReporter(jsonPath, reportName, testCaseName, reportTypes)
+        self.runReporter(jsonPath, reportName, testCaseName, reportTypes, reportDir)
 
 
-    def runReporter(self, jsonPath, reportName, testCaseName, reportTypes):
+    def runReporter(self, jsonPath, reportName, testCaseName, reportTypes, reportDir):
         """
         Write JSON to file with the specified name.
 
@@ -88,12 +89,13 @@ class Attest(object):
          - data: results data generated from the accessibility scan
          - reportName: name of the item in scope
          - testCaseName: name of the test case
-         - reportTypes: A comma seperated list of report types. options include: html, xml, or svc.
+         - reportTypes: A comma seperated list of report types. options include: html, xml, or csv.
+         - reportDir [optional]: the directory that the report files will be saved to. Defaults to './a11y-results'
         """      
-        path = os.path.join(
+        scriptPath = os.path.join(
             os.path.dirname(__file__), "logResults.js"
         )
-        log = 'node %s %s %s %s %s' % (path, jsonPath, reportName, testCaseName, reportTypes)
+        log = 'node %s %s %s %s %s %s' % (scriptPath, jsonPath, reportName, testCaseName, reportTypes, reportDir)
         os.system(log)
         os.remove(jsonPath)
 

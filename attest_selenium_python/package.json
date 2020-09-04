@@ -14,6 +14,6 @@
   "license": "MPL-2.0",
   "dependencies": {
     "@deque/attest-node": "file:deque-attest-node-2.11.1.tgz",
-    "@deque/attest-reporter": "file:deque-attest-reporter-2.10.0.tgz"
+    "attest-reporter-async": "file:attest-reporter-async-1.2.0.tgz"
   }
 }
