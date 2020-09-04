@@ -24,8 +24,8 @@ Open Browser To Login Page
     Login Page Should Be Open
 
 Login Page Should Be Open
-    # Does not contain accessibility violations
-    Run accessibility tests
+    Does not contain accessibility violations
+    # Run accessibility tests
     Title Should Be    - HR A11y
 
 Go To Login Page
