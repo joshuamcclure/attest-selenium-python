@@ -1,3 +1,9 @@
+*************
+:warning: THIS REPOSITORY HAS BEEN DEPRECATED :warning:
+*************
+
+`axe DevTools Enterprise <https://www.deque.com/axe/devtools/>`__ has an officially support Python integration. Please use that instead. This integrations repository is no longer actively maintained.
+
 attest-selenium-python
 ====================
 
